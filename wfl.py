@@ -1,7 +1,17 @@
-# WFL interpreter version α0.0.1
+# WFL interpreter version α0.0.2
 
 import os
 
-path = input("Enter folder path to execute: ")
+dir = input("Enter folder path to execute: ")
 
-print(os.listdir(path))
+def fileDate(file):
+    return os.path.getctime(os.path.join(dir, file))
+
+fList = os.listdir(dir)
+for file in fList:
+    if not os.path.isfile(os.path.join(dir, file)):
+        fList.remove(file)
+
+fList.sort(key=fileDate)
+
+print(fList)
