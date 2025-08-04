@@ -1,7 +1,8 @@
-# WFL interpreter version α0.0.2
+# WFL interpreter version α0.0.3
 
 import os
 
+debug = int(input("Debug mode? (1 for yes, 0 for no): "))
 dir = input("Enter folder path to execute: ")
 
 def fileDate(file):
@@ -14,4 +15,5 @@ for file in fList:
 
 fList.sort(key=fileDate)
 
-print(fList)
+if debug:
+    print(fList)
