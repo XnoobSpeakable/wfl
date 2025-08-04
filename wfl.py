@@ -1,4 +1,4 @@
-# WFL interpreter version α0.1.1
+# WFL interpreter version α0.2.0
 
 # INITIALIZE
 import os
@@ -20,14 +20,36 @@ if debug:
     print(fList)
 
 # EXECUTION FUNCTIONS
-# Currently empty
+
+def variableDecode(var):
+    return 0
+    # DO THIS
+
+def AndFunction(a, b):
+    return int(a) & int(b)
 
 #VARIABLE HANDLING
 vars = {}
 
 # INSTRUCTION LOOP
 for inst in fList:
-    splitInst = inst.split()
+    splitInst = inst.split(" ")
+    if debug:
+        print(splitInst)
+    varSplit = []
+    for i in splitInst:
+        if i == "":
+            splitInst.remove(i)
+            varSplit.append(1)
+        else:
+            varSplit.append(0)
+    del varSplit[0]
+    # UNFINISHED LOGIC
+
+    if debug:
+        print(splitInst)
+        print(varSplit)
+    
     opcode = splitInst[0]
     if opcode == "0":
         out1 = splitInst[1]
@@ -35,9 +57,13 @@ for inst in fList:
     elif opcode == "1":
         in1 = splitInst[1]
         in2 = splitInst[2]
-        # NOT COMPLETE
+        out1 = splitInst[3]
+        vars[out1] = AndFunction(in1, in2)
     elif opcode == "13":
         in1 = splitInst[1]
         if in1 in vars:
             "INTERPRETER WARNING: Variable '" + in1 + "' already exists. Overwriting."
         vars[in1] = {'val': None, 'type': 'INT'}
+    elif opcode == "23":
+        out1 = splitInst[1]
+        
