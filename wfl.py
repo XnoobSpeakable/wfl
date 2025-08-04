@@ -1,5 +1,6 @@
-# WFL interpreter version α0.0.3
+# WFL interpreter version α0.0.4
 
+# INITIALIZE
 import os
 
 debug = int(input("Debug mode? (1 for yes, 0 for no): "))
@@ -17,3 +18,7 @@ fList.sort(key=fileDate)
 
 if debug:
     print(fList)
+
+# INSTRUCTION LOOP
+for inst in fList:
+    print(inst)
