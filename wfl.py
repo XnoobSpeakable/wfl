@@ -1,4 +1,4 @@
-# WFL interpreter version α0.1.0
+# WFL interpreter version α0.1.1
 
 # INITIALIZE
 import os
@@ -19,6 +19,12 @@ fList.sort(key=fileDate)
 if debug:
     print(fList)
 
+# EXECUTION FUNCTIONS
+# Currently empty
+
+#VARIABLE HANDLING
+vars = {}
+
 # INSTRUCTION LOOP
 for inst in fList:
     splitInst = inst.split()
@@ -26,3 +32,12 @@ for inst in fList:
     if opcode == "0":
         out1 = splitInst[1]
         print("PROGRAM HALTED. EXIT CODE " + out1)
+    elif opcode == "1":
+        in1 = splitInst[1]
+        in2 = splitInst[2]
+        # NOT COMPLETE
+    elif opcode == "13":
+        in1 = splitInst[1]
+        if in1 in vars:
+            "INTERPRETER WARNING: Variable '" + in1 + "' already exists. Overwriting."
+        vars[in1] = {'val': None, 'type': 'INT'}
