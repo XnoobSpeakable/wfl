@@ -6,6 +6,8 @@ Working Opcodes:
 
 0 HALT: Yes.
 
-1 AND: No.
+1 AND: Partially implemented (Not functional).
 
-... (other opcodes): No.
+...
+
+13 INT: Yes (Untested).
