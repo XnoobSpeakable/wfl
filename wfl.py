@@ -1,4 +1,4 @@
-# WFL interpreter version α0.0.4
+# WFL interpreter version α0.1.0
 
 # INITIALIZE
 import os
@@ -21,4 +21,8 @@ if debug:
 
 # INSTRUCTION LOOP
 for inst in fList:
-    print(inst)
+    splitInst = inst.split()
+    opcode = splitInst[0]
+    if opcode == "0":
+        out1 = splitInst[1]
+        print("PROGRAM HALTED. EXIT CODE " + out1)
