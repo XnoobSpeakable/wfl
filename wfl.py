@@ -1,9 +1,10 @@
-# WFL interpreter version α0.2.1
+# WFL interpreter version α1.0.0
 
 # INITIALIZE
 import os
 
 debug = int(input("Debug mode? (1 for yes, 0 for no): "))
+varOpcodes = int(input("Allow opcodes to be variables (not recommended)? (1 for yes, 0 for no): "))
 dir = input("Enter folder path to execute: ")
 
 def fileDate(file):
@@ -14,57 +15,73 @@ for file in fList:
     if not os.path.isfile(os.path.join(dir, file)):
         fList.remove(file)
 
+if debug: print("DEBUG: fList " + str(fList))
+
 fList.sort(key=fileDate)
 
-if debug:
-    print(fList)
+if debug: print("DEBUG: sorted fList " + str(fList))
 
-# EXECUTION FUNCTIONS
-
-def variableDecode(var):
-    return 0
-    # DO THIS
-
-def AndFunction(a, b):
-    return int(a) & int(b)
 
 #VARIABLE HANDLING
 vars = {}
 
+def variableDecode(splitInst, varSplit):
+    if varSplit == 1:
+        if debug: print("DEBUG: variableDecode vars " + str(vars))
+        return vars[splitInst]["val"]
+    else:
+        return splitInst
+
+# EXECUTION FUNCTIONS
+def AndFunction(a, b):
+    return int(a) & int(b)
+
 # INSTRUCTION LOOP
 for inst in fList:
     splitInst = inst.split(" ")
-    if debug:
-        print(splitInst)
+    if debug: print("DEBUG: splitInst pre split loop " + str(splitInst))
     varSplit = []
-    for i in splitInst:
-        if i == "":
-            splitInst.remove(i)
-            varSplit.append(1)
-        else:
-            varSplit.append(0)
-    del varSplit[0]
-    # UNFINISHED LOGIC
+    loopList = splitInst
+    loops = 0
+    for string in loopList:
+        varSplit.append(0)
+        if string == "":
+            varSplit[loops-1] = 1
+            splitInst.remove(string)
+        loops += 1
 
     if debug:
+        print("DEBUG: inst, splitInst, varSplit")
+        print(inst)
         print(splitInst)
         print(varSplit)
     
-    opcode = splitInst[0]
+    if varOpcodes:
+        opcode = variableDecode(splitInst[0], varSplit[0])
+    else:
+        opcode = splitInst[0]
+
     if opcode == "0":
-        out1 = splitInst[1]
-        print("PROGRAM HALTED. EXIT CODE " + out1)
-        break;
+        in1 = variableDecode(splitInst[1], varSplit[1])
+        print("INTERPRETER MESSAGE: PROGRAM HAS HALTED. EXIT CODE: " + str(in1))
+        print("PRESS CTRL+C TO EXIT.")
+        while True:
+            pass
     elif opcode == "1":
-        in1 = splitInst[1]
-        in2 = splitInst[2]
+        in1 = variableDecode(splitInst[1], varSplit[1])
+        in2 = variableDecode(splitInst[2], varSplit[2])
         out1 = splitInst[3]
-        vars[out1] = AndFunction(in1, in2)
+        vars[out1]["val"] = AndFunction(in1, in2)
     elif opcode == "13":
-        in1 = splitInst[1]
+        in1 = variableDecode(splitInst[1], varSplit[1])
         if in1 in vars:
             "INTERPRETER WARNING: Variable '" + in1 + "' already exists. Overwriting."
         vars[in1] = {'val': None, 'type': 'INT'}
-    elif opcode == "23":
-        out1 = splitInst[1]
+    elif opcode == "33":
+        out1 = variableDecode(splitInst[1], varSplit[1])
+        print(out1)
         
+print("INTERPRETER WARNING: EXECUTION FINISHED WITH NO HALT INSTRUCTION.")
+print("PRESS CTRL+C TO EXIT.")
+while True:
+    pass
