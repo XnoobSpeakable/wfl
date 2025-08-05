@@ -2,12 +2,14 @@ Programming language based on filenames. Language name to be decided, WFL is tem
 
 Currently implemented features:
 
+Variables.
+
 Working Opcodes:
 
 0 HALT: Yes.
 
-1 AND: Partially implemented (Not functional).
+1 AND: Yes.
 
-...
+13 INT: Yes.
 
-13 INT: Yes (Untested).
+33 OUTR Yes.
