@@ -10,6 +10,8 @@ Working Opcodes:
 
 1 AND: Yes.
 
+2 OR: Yes.
+
 13 INT: Yes.
 
 33 OUTR Yes.
