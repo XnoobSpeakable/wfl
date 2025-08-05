@@ -2,6 +2,7 @@
 
 # INITIALIZE
 import os
+import fpArithmetic as fp
 
 debug = int(input("Debug mode? (1 for yes, 0 for no): "))
 varOpcodes = int(input("Allow opcodes to be variables (not recommended)? (1 for yes, 0 for no): "))
@@ -35,6 +36,8 @@ def variableDecode(splitInst, varSplit):
 # EXECUTION FUNCTIONS
 def AndFunction(a, b):
     return int(a) & int(b)
+def OrFunction(a, b):
+    return int(a) | int(b)
 
 # INSTRUCTION LOOP
 for inst in fList:
@@ -72,6 +75,11 @@ for inst in fList:
         in2 = variableDecode(splitInst[2], varSplit[2])
         out1 = splitInst[3]
         vars[out1]["val"] = AndFunction(in1, in2)
+    elif opcode == "2":
+        in1 = variableDecode(splitInst[1], varSplit[1])
+        in2 = variableDecode(splitInst[2], varSplit[2])
+        out1 = splitInst[3]
+        vars[out1]["val"] = OrFunction(in1, in2)
     elif opcode == "13":
         in1 = variableDecode(splitInst[1], varSplit[1])
         if in1 in vars:
