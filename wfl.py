@@ -1,8 +1,7 @@
-# WFL interpreter version α1.0.0
+# WFL interpreter version α1.1.0
 
 # INITIALIZE
 import os
-import fpArithmetic as fp
 
 debug = int(input("Debug mode? (1 for yes, 0 for no): "))
 varOpcodes = int(input("Allow opcodes to be variables (not recommended)? (1 for yes, 0 for no): "))
@@ -34,6 +33,13 @@ def variableDecode(splitInst, varSplit):
         return splitInst
 
 # EXECUTION FUNCTIONS
+def BinaryLogic(a, b, gate, notGate=False):
+    if gate == "AND":
+        result = int(a) & int(b)
+    elif gate == "OR":
+        result = int(a) | int(b)
+    elif gate == "XOR":
+        result = int(a) ^ int(b)
 def AndFunction(a, b):
     return int(a) & int(b)
 def OrFunction(a, b):
@@ -64,30 +70,35 @@ for inst in fList:
     else:
         opcode = splitInst[0]
 
-    if opcode == "0":
+    if int(opcode) in range(0, 30) or int(opcode) in range(32, 34):
         in1 = variableDecode(splitInst[1], varSplit[1])
+    if int(opcode) in range(1, 4) or int(opcode) in range(5, 11) or int(opcode) in range(18, 25):
+        in2 = variableDecode(splitInst[2], varSplit[2])
+    if int(opcode) in range(9, 11):
+        in3 = variableDecode(splitInst[3], varSplit[3])
+
+    if int(opcode) in range(30, 32):
+        out1 = splitInst[1]
+    if opcode == "4" or int(opcode) in range(16, 18) or opcode == "25":
+        out1 = splitInst[2]
+    if int(opcode) in range(1, 4) or int(opcode) in range(5, 8) or int(opcode) in range(18, 25):
+        out1 = splitInst[3]
+
+    if opcode == "0":
         print("INTERPRETER MESSAGE: PROGRAM HAS HALTED. EXIT CODE: " + str(in1))
         print("PRESS CTRL+C TO EXIT.")
         while True:
             pass
     elif opcode == "1":
-        in1 = variableDecode(splitInst[1], varSplit[1])
-        in2 = variableDecode(splitInst[2], varSplit[2])
-        out1 = splitInst[3]
         vars[out1]["val"] = AndFunction(in1, in2)
     elif opcode == "2":
-        in1 = variableDecode(splitInst[1], varSplit[1])
-        in2 = variableDecode(splitInst[2], varSplit[2])
-        out1 = splitInst[3]
         vars[out1]["val"] = OrFunction(in1, in2)
     elif opcode == "13":
-        in1 = variableDecode(splitInst[1], varSplit[1])
         if in1 in vars:
             "INTERPRETER WARNING: Variable '" + in1 + "' already exists. Overwriting."
         vars[in1] = {'val': None, 'type': 'INT'}
     elif opcode == "33":
-        out1 = variableDecode(splitInst[1], varSplit[1])
-        print(out1)
+        print(in1)
         
 print("INTERPRETER WARNING: EXECUTION FINISHED WITH NO HALT INSTRUCTION.")
 print("PRESS CTRL+C TO EXIT.")
